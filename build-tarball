@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+# this is for a clara installation.
+set -e
+mvn package
+g=grapes-$(grep "<revision>" pom.xml | awk -F '[<>]' '{print$3}')
+rm -rf $g $g.tar.gz
+mkdir -p $g/lib/core
+cp target/$g-core.jar $g/lib/core/
+tar -czf $g.tar.gz $g
+echo scp $g.tar.gz clas12@ifarm1901:/group/clas/www/clasweb/html/clas12offline/distribution/grapes/
